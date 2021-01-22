@@ -11,21 +11,20 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.platform.app.InstrumentationRegistry
+import org.hamcrest.CoreMatchers.allOf
 import org.junit.Assert.assertEquals
 import org.mozilla.fenix.R
 import org.mozilla.fenix.helpers.click
-import org.mozilla.fenix.helpers.nthChildOf
 
 /**
  * Implementation of Robot Pattern for Reader View UI.
  */
 class ReaderViewRobot {
-
-    fun verifyReaderViewDetected(visible: Boolean = false): ViewInteraction =
-        assertReaderViewDetected(visible)
 
     fun verifyAppearanceFontGroup(visible: Boolean = false): ViewInteraction =
         assertAppearanceFontGroup(visible)
@@ -183,18 +182,6 @@ fun readerViewRobot(interact: ReaderViewRobot.() -> Unit): ReaderViewRobot.Trans
     ReaderViewRobot().interact()
     return ReaderViewRobot.Transition()
 }
-
-/**
- * Detects for the blue notification dot in the three dot menu
- */
-private fun assertReaderViewDetected(visible: Boolean) =
-    onView(
-        nthChildOf(
-            withId(R.id.mozac_browser_toolbar_menu), 2
-        )
-    ).check(
-        matches(withEffectiveVisibility(visibleOrGone(visible)))
-    )
 
 private fun assertAppearanceFontGroup(visible: Boolean) =
     onView(
